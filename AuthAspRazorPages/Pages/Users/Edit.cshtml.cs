@@ -8,35 +8,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AuthAspRazorPages.EFcore;
 using AuthAspRazorPages.Models;
+using AuthAspRazorPages.Application;
 
 namespace AuthAspRazorPages.Pages.Users
 {
     public class EditModel : PageModel
     {
+        public SelectList Roles;
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
-
-        public EditModel(AuthAspRazorPages.EFcore.ProContext context)
+        private readonly IUserApplication _userApp;
+        public EditModel(AuthAspRazorPages.EFcore.ProContext context, IUserApplication userApplication)
         {
             _context = context;
+            _userApp = userApplication;
         }
 
         [BindProperty]
-        public User User { get; set; } = default!;
+        public User editModel { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGetAsync(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user =  await _context.Users.FirstOrDefaultAsync(m => m.Id == id);
+            var user = _userApp.GetDetails(id);
             if (user == null)
             {
                 return NotFound();
             }
-            User = user;
-           ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Name");
+            editModel = user;
+            Roles = new SelectList(_context.Roles.ToList(), "Id", "Name");
             return Page();
         }
 
@@ -44,28 +47,29 @@ namespace AuthAspRazorPages.Pages.Users
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
+            _userApp.Edit(editModel);
+        
+            //_context.Attach(User).State = EntityState.Modified;
 
-            _context.Attach(User).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(User.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!UserExists(User.Id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
 
             return RedirectToPage("./Index");
         }
