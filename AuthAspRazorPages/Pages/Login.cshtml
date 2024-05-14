@@ -1,7 +1,7 @@
 ﻿@page
 @model AuthAspRazorPages.Pages.LoginModel
 @{
-    Layout = "~/Shared/LoginLayout/_LoginLayout.cshtml";
+    Layout = "~/Pages/Shared/LoginLayout/_LoginLayout.cshtml";
     ViewData["Title"] = "Login";
 }
 
@@ -14,25 +14,25 @@
         <h4 class="text-center text-light">Have an account?</h4>
 
         <div class="d-flex justify-content-center w-100 h-100 align-items-center">
-@* 
-            <form asp-action="Login">
+
+            <form method="post"  asp-page-handler="Login">
                
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group m-3">
 
-                    <input asp-for="Email" type="email" class="form-control bg-opacity-30 inputStyle" placeholder="Email">
+                    <input asp-for="login.UserName" type="text" class="form-control bg-opacity-30 inputStyle" placeholder="UserName">
 
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <span asp-validation-for="login.UserName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group m-3">
 
-                    <input asp-for="Password" type="password" class="form-control bg-opacity-30 inputStyle" placeholder="Password" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <input asp-for="login.Password" type="password" class="form-control bg-opacity-30 inputStyle" placeholder="Password" />
+                    <span asp-validation-for="login.Password" class="text-danger"></span>
                 </div>
 
-                <div class="form-group m-3">
+              @*   <div class="form-group m-3">
                     <div class="form-check-inline">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -41,14 +41,14 @@
                             </label>
                         </div>
                     </div>
-                </div>
+                </div> *@
 
 
 
                 <div class="form-group m-3">
                     <input type="submit" value="SIGN IN" class="btn LoginButton" />
                 </div>
-            </form> *@
+            </form> 
 
 
              

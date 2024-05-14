@@ -22,6 +22,9 @@ namespace AuthAspRazorPages.EFcore.Mapping
                 navigationBuilder.Ignore(x => x.Name);
                 navigationBuilder.WithOwner(x => x.Role);
             });
+            builder.HasMany(x => x.Users)
+              .WithOne(x => x.Role)
+              .HasForeignKey(x => x.RoleId);
         }
     }
 }
