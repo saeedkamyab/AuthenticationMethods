@@ -1,5 +1,7 @@
 ﻿using AuthAspRazorPages.EFcore.Mapping;
 using AuthAspRazorPages.Models;
+using AuthAspRazorPages.Models.Article;
+using AuthAspRazorPages.Models.Book;
 using AuthAspRazorPages.Models.RoleAndPermission;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +20,8 @@ namespace AuthAspRazorPages.EFcore
 
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Article> Articles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

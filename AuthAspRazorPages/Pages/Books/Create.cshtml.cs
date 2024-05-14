@@ -6,19 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AuthAspRazorPages.EFcore;
-using AuthAspRazorPages.Models.RoleAndPermission;
-using AuthAspRazorPages.Application.RoleAndPermission;
+using AuthAspRazorPages.Models.Book;
 
-namespace AuthAspRazorPages.Pages.Roles
+namespace AuthAspRazorPages.Pages.Books
 {
     public class CreateModel : PageModel
     {
-    
-        private readonly IRoleApplication _roleApp;
+        private readonly AuthAspRazorPages.EFcore.ProContext _context;
 
-        public CreateModel(IRoleApplication roleApp)
+        public CreateModel(AuthAspRazorPages.EFcore.ProContext context)
         {
-            _roleApp = roleApp;
+            _context = context;
         }
 
         public IActionResult OnGet()
@@ -27,12 +25,18 @@ namespace AuthAspRazorPages.Pages.Roles
         }
 
         [BindProperty]
-        public Role Role { get; set; } = default!;
+        public Book Book { get; set; } = default!;
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
-            _roleApp.Create(Role);
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            _context.Books.Add(Book);
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

@@ -5,11 +5,200 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">ویرایش نقش @Model.editRoleModel.Name</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <form method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="editRoleModel.Name" class="control-label">نام</label>
+                                        <input type="text" class="form-control" asp-for="editRoleModel.Name">
+                                        <span asp-validation-for="editRoleModel.Name" class="error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="control-label col-md-3">انتخاب دسترسی ها</label>
+                                    <div class="col-md-12">
+                                        <select asp-for="editRoleModel.Permissions" asp-items="Model.Permissions" class="multi-select" multiple="multiple" id="my_multi_select3">
+                                       
+                                         </select>
+
+                                     @*    <select asp-for="Role.Permissions" asp-items="Model.Permissions"
+                                                class="form-select" multiple aria-label="Multiple select example">
+                                        </select> 
+                                     *@
+
+                                        @*    @foreach(var ch in Model.Permissions)
+                                        {
+                                        <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                        @ch.Text
+                                        </label>
+                                        </div>
+
+                                        } *@
+                                    </div>
+                                    <input type="hidden" asp-for="editRoleModel.Id" value="@Model.editRoleModel.Id" />
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info waves-effect waves-light">ویرایش</button>
+                            <a asp-page="./Index" class="btn btn-dark waves-effect waves-light m-b-5">بازگشت</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* @section Css
+{
+    <link href="~/js/multi-select.css" rel="stylesheet" type="text/css" />
+} *@
+
+@section Scripts
+{
+    @*     <script type="text/javascript" src="~/js/jquery.multi-select.js"></script>
+    <script type="text/javascript" src="~/js/jquery.quicksearch.js"></script> *@
+
+    <script>
+        jQuery(document).ready(function () {
+            $('#my_multi_select3').multiSelect({
+                selectableOptgroup: true,
+                selectableHeader:
+                    "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+                selectionHeader:
+                    "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+                afterInit: function (ms) {
+                    var that = this,
+                        $selectableSearch = that.$selectableUl.prev(),
+                        $selectionSearch = that.$selectionUl.prev(),
+                        selectableSearchString =
+                            '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                        selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                        .on('keydown',
+                            function (e) {
+                                if (e.which === 40) {
+                                    that.$selectableUl.focus();
+                                    return false;
+                                }
+                            });
+
+                    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                        .on('keydown',
+                            function (e) {
+                                if (e.which == 40) {
+                                    that.$selectionUl.focus();
+                                    return false;
+                                }
+                            });
+                },
+                afterSelect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                },
+                afterDeselect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                }
+            });
+        });
+    </script>
+}
+
+
+@*---------------------------------------------------------------*@
+
+
+@* <h1>Edit</h1>
 
 <h4>Role</h4>
+<hr /> *@
+
+
+
+@* <h1> ویرایش نقش</h1>
 <hr />
 <div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Role.Name" class="control-label"></label>
+                <input asp-for="Role.Name" class="form-control" />
+                <span asp-validation-for="Role.Name" e" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label class="control-label col-md-3">انتخاب دسترسی ها</label>
+                <div class="col-md-12">
+
+                    <select multiple asp-for="Role.Permissions" asp-items="Model.Permissions"
+                            style="width:350px; height:420px;">
+                    </select>
+@*
+                    @foreach (var chItem in Model.Permissions)
+                    {
+                        if (chItem.Selected == true)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" asp-for="Command.Permissions" type="checkbox" value="@Model.Command.Permissions" id="flexCheckChecked" checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    @chItem.Text
+                                </label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" asp-for="Command.Permissions" type="checkbox" value="@Model.Command.Permissions" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    @chItem.Text
+                                </label>
+                            </div>
+                        }
+
+                    }
+ *@
+
+@*
+                    <button onclick="var el = document.getElementsByTagName('select')[0];alert(getSelectValues(el));">
+                    Show selected values
+                    </button>
+                    *@
+
+
+@*   </div>
+                <input type="hidden" asp-for="Role.Id" value="@Model.Role.Id" />
+            </div>
+
+            <div class="form-group m-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div> *@
+
+@* <div>
+    <a asp-page="Index">Back to List</a>
+</div> *@
+
+
+
+
+
+@* <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -24,12 +213,13 @@
             </div>
         </form>
     </div>
-</div>
+</div> *@
 
-<div>
+@* <div>
     <a asp-page="./Index">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+ *@ 

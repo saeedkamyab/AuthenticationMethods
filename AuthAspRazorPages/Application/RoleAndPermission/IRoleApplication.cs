@@ -7,5 +7,7 @@ namespace AuthAspRazorPages.Application.RoleAndPermission
         bool Create(Role createModel);
         bool Edit(Role editModel);
 
+        Role GetDetails(int id);
+
     }
 }

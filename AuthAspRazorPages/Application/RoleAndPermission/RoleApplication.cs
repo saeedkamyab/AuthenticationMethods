@@ -1,5 +1,8 @@
 ﻿using AuthAspRazorPages.EFcore;
 using AuthAspRazorPages.Models.RoleAndPermission;
+using AuthAspRazorPages.Permissions;
+using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AuthAspRazorPages.Application.RoleAndPermission
 {
@@ -31,7 +34,7 @@ namespace AuthAspRazorPages.Application.RoleAndPermission
 
             var permissions=new List<Permission>();
 
-            editModel.PermissionCodes.ForEach(code => permissions.Add(new Permission(code)));
+            editModel.PermissionCodes?.ForEach(code => permissions.Add(new Permission(code)));
       
             role.Edit(editModel.Name, permissions);
 
@@ -39,5 +42,42 @@ namespace AuthAspRazorPages.Application.RoleAndPermission
 
             return true;
         }
+
+        public Role GetDetails(int id)
+        {
+
+            //var role = _context.Roles.FirstOrDefault(x=>x.Id==id);
+
+            //var role = _context.Roles.Select(x => new Role
+            //{
+            //    Id = x.Id,
+            //    Name = x.Name,
+            //    MappedPermissions = x.MappedPermissions
+            //}).AsNoTracking().FirstOrDefault(x => x.Id == id);
+            //role.MappedPermissions = role.MappedPermissions.Select(x => x.Code).ToList();
+
+
+            var role = _context.Roles.Select(x => new Role
+            {
+                Id = x.Id,
+                Name = x.Name,
+                MappedPermissions = MapPermissions(x.Permissions)
+            }).AsNoTracking().FirstOrDefault(x => x.Id == id);
+            role.PermissionCodes = role.MappedPermissions.Select(x => x.Code).ToList();
+
+            return role;
+        }
+        private static List<PermissionDto> MapPermissions(IEnumerable<Permission> permissions)
+        {
+            return permissions.Select(x => new PermissionDto(x.Code, x.Name)).ToList();
+        }
+        //public List<Role> List()
+        //{
+        //    return _context.Roles.Select(x => new Role
+        //    {
+        //        Id = x.Id,
+        //        Name = x.Name
+        //    }).ToList();
+        //}
     }
 }

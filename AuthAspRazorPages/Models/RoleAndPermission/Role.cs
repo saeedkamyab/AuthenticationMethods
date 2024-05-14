@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using AuthAspRazorPages.Permissions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuthAspRazorPages.Models.RoleAndPermission
 {
@@ -13,8 +14,10 @@ namespace AuthAspRazorPages.Models.RoleAndPermission
         public List<Permission> Permissions { get;  set; }
         [NotMapped]
         public List<int> PermissionCodes { get;  set; }
+        [NotMapped]
+        public List<PermissionDto> MappedPermissions { get; set; }
 
-        protected Role() { }
+        public Role() { }
 
         public Role(string name, List<Permission> permissions)
         {

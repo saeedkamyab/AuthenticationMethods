@@ -8,70 +8,78 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AuthAspRazorPages.EFcore;
 using AuthAspRazorPages.Models.RoleAndPermission;
+using AuthAspRazorPages.Application.RoleAndPermission;
+using AuthAspRazorPages.Permissions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace AuthAspRazorPages.Pages.Roles
 {
     public class EditModel : PageModel
     {
-        private readonly AuthAspRazorPages.EFcore.ProContext _context;
 
-        public EditModel(AuthAspRazorPages.EFcore.ProContext context)
+        private readonly IRoleApplication _roleApp;
+        private readonly IEnumerable<IPermissionExposer> _exposers;
+
+        public List<SelectListItem> Permissions = new List<SelectListItem>();
+
+        public EditModel(IRoleApplication roleApp, IEnumerable<IPermissionExposer> exposers)
         {
-            _context = context;
+            _roleApp = roleApp;
+            _exposers = exposers;
         }
 
         [BindProperty]
-        public Role Role { get; set; } = default!;
+        public Role editRoleModel { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGet(int id)
         {
+
             if (id == null)
             {
                 return NotFound();
             }
-
-            var role =  await _context.Roles.FirstOrDefaultAsync(m => m.Id == id);
-            if (role == null)
+            editRoleModel = _roleApp.GetDetails(id);
+            foreach (var exposer in _exposers)
             {
-                return NotFound();
+                var exposedPermissions = exposer.Expose();
+                foreach (var (key, value) in exposedPermissions)
+                {
+                    var group = new SelectListGroup { Name = key };
+                    foreach (var permission in value)
+                    {
+                        var item = new SelectListItem(permission.Name, permission.Code.ToString())
+                        {
+                            Group = group
+                        };
+
+                        if (editRoleModel.MappedPermissions.Any(x => x.Code == permission.Code))
+                            item.Selected = true;
+
+                        Permissions.Add(item);
+                    }
+                }
             }
-            Role = role;
+
+
+
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
+            foreach (var permItem in Permissions)
             {
-                return Page();
+                if (permItem.Selected == true)
+                    editRoleModel.Permissions.Add(new Permission(Convert.ToInt32(permItem.Value), permItem.Text));
             }
 
-            _context.Attach(Role).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RoleExists(Role.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
+            var result = _roleApp.Edit(editRoleModel);
+            return RedirectToPage("Index");
         }
 
-        private bool RoleExists(int id)
-        {
-            return _context.Roles.Any(e => e.Id == id);
-        }
+
     }
 }
