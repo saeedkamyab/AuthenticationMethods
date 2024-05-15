@@ -35,10 +35,11 @@ builder.Services.AddCors(options =>
 
     options.AddPolicy("EnableCors", policy =>
         {
-            policy.AllowAnyOrigin()
+            policy
+            .WithOrigins()
                 .AllowAnyHeader()
                 .AllowAnyMethod()
-                //.AllowCredentials()
+                .AllowCredentials()
                 .Build();
 
         });

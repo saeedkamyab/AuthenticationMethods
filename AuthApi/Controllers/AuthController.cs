@@ -32,7 +32,9 @@ namespace AuthApi.Controllers
                 signingCredentials: signInCredentials
                 );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            return Ok(new { token=tokenString});
+            //return Ok(tokenString);
+            return Ok(new { token = tokenString });
+
         }
     }
 }
