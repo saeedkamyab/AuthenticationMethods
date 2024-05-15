@@ -1,4 +1,5 @@
 ﻿
+using AuthApi.Models.RoleAndPermission;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuthApi.Models
@@ -18,8 +19,8 @@ namespace AuthApi.Models
         [NotMapped]
         public IFormFile? ProfilePhotoFile { get; set; }
 
-        //public int RoleId { get;  set; }
-        //public Role Role { get;  set; }
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
 
         public User()
         {
@@ -34,7 +35,7 @@ namespace AuthApi.Models
             FullName = fullName;
             FName = fName;
             ProfilePhoto = profilePhoto;
-            //RoleId = roleId;
+            RoleId = roleId;
         }
 
 
