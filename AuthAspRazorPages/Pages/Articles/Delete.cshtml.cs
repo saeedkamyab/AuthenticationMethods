@@ -11,7 +11,7 @@ using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Articles
 {
-    [NeedsPermission(FunctionPermmisionsCode.RemoveArticle)]
+
     public class DeleteModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
@@ -24,6 +24,7 @@ namespace AuthAspRazorPages.Pages.Articles
         [BindProperty]
         public Article Article { get; set; } = default!;
 
+        [NeedsPermission(FunctionPermmisionsCode.RemoveArticle)]
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -43,7 +44,7 @@ namespace AuthAspRazorPages.Pages.Articles
             }
             return Page();
         }
-
+        [NeedsPermission(FunctionPermmisionsCode.RemoveArticle)]
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)

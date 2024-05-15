@@ -12,7 +12,7 @@ using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Articles
 {
-    [NeedsPermission(FunctionPermmisionsCode.EditArticle)]
+ 
     public class EditModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
@@ -25,6 +25,7 @@ namespace AuthAspRazorPages.Pages.Articles
         [BindProperty]
         public Article Article { get; set; } = default!;
 
+        [NeedsPermission(FunctionPermmisionsCode.EditArticle)]
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -40,6 +41,8 @@ namespace AuthAspRazorPages.Pages.Articles
             Article = article;
             return Page();
         }
+
+        [NeedsPermission(FunctionPermmisionsCode.EditArticle)]
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

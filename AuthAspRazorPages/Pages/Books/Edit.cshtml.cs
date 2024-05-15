@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AuthAspRazorPages.EFcore;
 using AuthAspRazorPages.Models.Book;
+using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Books
 {
+
     public class EditModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
@@ -23,6 +25,8 @@ namespace AuthAspRazorPages.Pages.Books
         [BindProperty]
         public Book Book { get; set; } = default!;
 
+
+        [NeedsPermission(FunctionPermmisionsCode.EditBook)]
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -39,8 +43,7 @@ namespace AuthAspRazorPages.Pages.Books
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
+        [NeedsPermission(FunctionPermmisionsCode.EditBook)]
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

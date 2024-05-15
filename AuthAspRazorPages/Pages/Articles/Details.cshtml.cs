@@ -11,7 +11,7 @@ using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Articles
 {
-    [NeedsPermission(FunctionPermmisionsCode.ArticleList)]
+   
     public class DetailsModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
@@ -23,6 +23,7 @@ namespace AuthAspRazorPages.Pages.Articles
 
         public Article Article { get; set; } = default!;
 
+        [NeedsPermission(FunctionPermmisionsCode.ArticleList)]
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)

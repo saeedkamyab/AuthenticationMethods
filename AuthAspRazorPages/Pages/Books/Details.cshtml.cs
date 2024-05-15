@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using AuthAspRazorPages.EFcore;
 using AuthAspRazorPages.Models.Book;
+using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Books
 {
+ 
     public class DetailsModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
@@ -21,6 +23,8 @@ namespace AuthAspRazorPages.Pages.Books
 
         public Book Book { get; set; } = default!;
 
+
+        [NeedsPermission(FunctionPermmisionsCode.BookList)]
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)

@@ -11,16 +11,19 @@ using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Articles
 {
-    [NeedsPermission(FunctionPermmisionsCode.AddNewArticle)]
+
     public class CreateModel : PageModel
     {
+       
+      
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
 
+       
         public CreateModel(AuthAspRazorPages.EFcore.ProContext context)
         {
             _context = context;
         }
-     
+        [NeedsPermission(FunctionPermmisionsCode.AddNewArticle)]
         public IActionResult OnGet()
         {
             return Page();
@@ -29,7 +32,7 @@ namespace AuthAspRazorPages.Pages.Articles
         [BindProperty]
         public Article Article { get; set; } = default!;
 
-      
+        [NeedsPermission(FunctionPermmisionsCode.AddNewArticle)]
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

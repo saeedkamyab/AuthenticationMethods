@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using AuthAspRazorPages.EFcore;
 using AuthAspRazorPages.Models.Book;
+using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Books
 {
+
     public class DeleteModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
@@ -22,6 +24,7 @@ namespace AuthAspRazorPages.Pages.Books
         [BindProperty]
         public Book Book { get; set; } = default!;
 
+        [NeedsPermission(FunctionPermmisionsCode.RemoveBook)]
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -42,6 +45,7 @@ namespace AuthAspRazorPages.Pages.Books
             return Page();
         }
 
+        [NeedsPermission(FunctionPermmisionsCode.RemoveBook)]
         public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (id == null)

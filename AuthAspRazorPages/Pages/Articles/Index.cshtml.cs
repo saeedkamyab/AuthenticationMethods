@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AuthAspRazorPages.Pages.Articles
 {
-    [NeedsPermission(FunctionPermmisionsCode.ArticleList)]
+
     public class IndexModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
@@ -23,7 +23,8 @@ namespace AuthAspRazorPages.Pages.Articles
         }
 
         public IList<Article> Article { get;set; } = default!;
-      
+
+        [NeedsPermission(FunctionPermmisionsCode.ArticleList)]
         public async Task OnGetAsync()
         {
             Article = await _context.Articles.ToListAsync();

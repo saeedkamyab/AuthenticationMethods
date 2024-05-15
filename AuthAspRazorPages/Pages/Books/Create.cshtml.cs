@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AuthAspRazorPages.EFcore;
 using AuthAspRazorPages.Models.Book;
+using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Books
 {
+
     public class CreateModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
@@ -19,6 +21,7 @@ namespace AuthAspRazorPages.Pages.Books
             _context = context;
         }
 
+        [NeedsPermission(FunctionPermmisionsCode.AddNewBook)]
         public IActionResult OnGet()
         {
             return Page();
@@ -27,7 +30,7 @@ namespace AuthAspRazorPages.Pages.Books
         [BindProperty]
         public Book Book { get; set; } = default!;
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        [NeedsPermission(FunctionPermmisionsCode.AddNewBook)]
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
