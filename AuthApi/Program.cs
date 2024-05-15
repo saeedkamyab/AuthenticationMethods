@@ -1,5 +1,8 @@
 using AuthApi.EFcore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,15 +13,33 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
+//jwt
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = true,//validate token on server side
+            ValidateAudience = false,//validate on client side
+            ValidateLifetime = true,//time to expire token
+            ValidateIssuerSigningKey = true, //validate key 
+            ValidIssuer = "https://localhost:7102", //valid server address 
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authentication"))  //the key that token will encrypt by  
+        };
+    });
+
 builder.Services.AddCors(options =>
 {
 
-    options.AddDefaultPolicy(
-        policy =>
+    options.AddPolicy("EnableCors", policy =>
         {
             policy.AllowAnyOrigin()
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                //.AllowCredentials()
+                .Build();
 
         });
 });
@@ -35,7 +56,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseCors("EnableCors");
+app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapControllers();
 
