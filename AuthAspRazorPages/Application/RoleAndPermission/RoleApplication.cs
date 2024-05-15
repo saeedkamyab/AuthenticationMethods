@@ -19,7 +19,7 @@ namespace AuthAspRazorPages.Application.RoleAndPermission
         {
             if (_context.Roles.Any(x => x.Name == createModel.Name)) return false;
 
-            var role = new Role(createModel.Name, new List<Permission>());
+            var role = new Role(createModel.Name,new List<Permission>());
             _context.Roles.Add(role);
             _context.SaveChanges();
 
@@ -36,11 +36,29 @@ namespace AuthAspRazorPages.Application.RoleAndPermission
 
             editModel.PermissionCodes?.ForEach(code => permissions.Add(new Permission(code)));
       
-            role.Edit(editModel.Name, permissions);
+            //role.Edit(editModel.Name, permissions);
+            role.Edit(editModel.Name, editModel.Permissions);
 
             _context.SaveChanges();
 
             return true;
+
+            //---------------------------------------------------Old
+            //var role = _context.Roles.Find(editModel.Id);
+
+            //if (role == null) return false;
+
+            //var permissions = new List<Permission>();
+
+            //editModel.PermissionCodes?.ForEach(code => permissions.Add(new Permission(code)));
+
+            //role.Edit(editModel.Name, permissions);
+
+            //_context.SaveChanges();
+
+            //return true;
+
+
         }
 
         public Role GetDetails(int id)
@@ -69,6 +87,7 @@ namespace AuthAspRazorPages.Application.RoleAndPermission
         }
         private static List<PermissionDto> MapPermissions(IEnumerable<Permission> permissions)
         {
+          
             return permissions.Select(x => new PermissionDto(x.Code, x.Name)).ToList();
         }
         //public List<Role> List()

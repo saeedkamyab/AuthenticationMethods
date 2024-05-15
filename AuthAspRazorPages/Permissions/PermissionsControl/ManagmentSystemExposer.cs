@@ -13,41 +13,23 @@ namespace AuthAspRazorPages.PermissionsControl
                 {
                       "Articles",new List<PermissionDto>
                       {
+
                          new PermissionDto(FunctionPermmisionsCode.ArticleList,"ArticleList"),
-                         //new PermissionDto(ManagmentSystemPermissons.SearchTuitionsList,"SearchTuitionsList"),
-                         //new PermissionDto(ManagmentSystemPermissons.CreateTuition,"CreateTuition"),
-                         //new PermissionDto(ManagmentSystemPermissons.EditTuition,"EditTuition"),
-                         //new PermissionDto(ManagmentSystemPermissons.DeleteTuition,"DeleteTuition"),
+                         new PermissionDto(FunctionPermmisionsCode.AddNewArticle,"AddNewArticle"),
+                         new PermissionDto(FunctionPermmisionsCode.EditArticle,"EditArticle"),
+                         new PermissionDto(FunctionPermmisionsCode.RemoveArticle,"RemoveArticle"),
                       }
-                }
-                //{
-                //      "Level" , new List<PermissionDto>
-                //      {
-                //         new PermissionDto(ManagmentSystemPermissons.LevelList,"LevelList"),
-                //         new PermissionDto(ManagmentSystemPermissons.CreateLevel,"CreateLevel"),
-                //         new PermissionDto(ManagmentSystemPermissons.EditLevel,"EditLevel"),
-                //         new PermissionDto(ManagmentSystemPermissons.DeleteLevel,"DeleteLevel"),
-                //      }
-                //}, 
-                //{
-                //      "TermClass" , new List<PermissionDto>
-                //      {
-                //         new PermissionDto(ManagmentSystemPermissons.TermClassList,"TermClassList"),
-                //         new PermissionDto(ManagmentSystemPermissons.CreateTermClass,"CreateTermClass"),
-                //         new PermissionDto(ManagmentSystemPermissons.EditTermClass,"EditTermClass"),
-                //         new PermissionDto(ManagmentSystemPermissons.DeleteTermClass,"DeleteTermClass"),
-                //         new PermissionDto(ManagmentSystemPermissons.SearchTermClassList,"SearchTermClass"),
-                //      }
-                //},
-                //  {
-                //      "Register" , new List<PermissionDto>
-                //      {
-                //         new PermissionDto(ManagmentSystemPermissons.RegisterList,"RegisterList"),
-                //         new PermissionDto(ManagmentSystemPermissons.CreateRegister,"CreateRegister"),
-                //         new PermissionDto(ManagmentSystemPermissons.EditRegister,"EditRegister"),
-                //         new PermissionDto(ManagmentSystemPermissons.DeleteRegister,"DeleteRegister"),
-                //      }
-                //}
+                },
+                {
+                      "Books" , new List<PermissionDto>
+                      {
+                         new PermissionDto(FunctionPermmisionsCode.BookList,"BookList"),
+                         new PermissionDto(FunctionPermmisionsCode.AddNewBook,"AddNewBook"),
+                         new PermissionDto(FunctionPermmisionsCode.EditBook,"EditBook"),
+                         new PermissionDto(FunctionPermmisionsCode.RemoveBook,"RemoveBook"),
+                      }
+                }, 
+             
 
             };
         }

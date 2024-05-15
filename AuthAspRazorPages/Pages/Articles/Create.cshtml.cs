@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AuthAspRazorPages.EFcore;
 using AuthAspRazorPages.Models.Article;
+using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Articles
 {
+    [NeedsPermission(FunctionPermmisionsCode.AddNewArticle)]
     public class CreateModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
@@ -18,7 +20,7 @@ namespace AuthAspRazorPages.Pages.Articles
         {
             _context = context;
         }
-
+     
         public IActionResult OnGet()
         {
             return Page();
@@ -27,7 +29,7 @@ namespace AuthAspRazorPages.Pages.Articles
         [BindProperty]
         public Article Article { get; set; } = default!;
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+      
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

@@ -1,7 +1,10 @@
-﻿namespace AuthAspRazorPages.Models.RoleAndPermission
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AuthAspRazorPages.Models.RoleAndPermission
 {
     public class Permission
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get;  set; }
         public int Code { get;  set; }
         public string Name { get;  set; }
@@ -19,10 +22,10 @@
             Code = code;
         }
 
-        public Permission(int code,string name)
-        {
-            Code = code;
-            Name = name;
-        }
+        //public Permission(int code,string name)
+        //{
+        //    Code = code;
+        //    Name = name;
+        //}
     }
 }

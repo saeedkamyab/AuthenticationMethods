@@ -26,25 +26,9 @@
                                 <div class="col-md-6">
                                     <label class="control-label col-md-3">انتخاب دسترسی ها</label>
                                     <div class="col-md-12">
-                                        <select asp-for="editRoleModel.Permissions" asp-items="Model.Permissions" class="multi-select" multiple="multiple" id="my_multi_select3">
-                                       
-                                         </select>
-
-                                     @*    <select asp-for="Role.Permissions" asp-items="Model.Permissions"
-                                                class="form-select" multiple aria-label="Multiple select example">
-                                        </select> 
-                                     *@
-
-                                        @*    @foreach(var ch in Model.Permissions)
-                                        {
-                                        <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                        @ch.Text
-                                        </label>
-                                        </div>
-
-                                        } *@
+                                        <select name="selectedPermissions"
+                                        asp-items="Model.Permissions" class="multi-select" multiple="multiple" id="my_multi_select3">
+                                        </select>
                                     </div>
                                     <input type="hidden" asp-for="editRoleModel.Id" value="@Model.editRoleModel.Id" />
                                 </div>

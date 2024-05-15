@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using AuthAspRazorPages.EFcore;
 using AuthAspRazorPages.Models.Article;
+using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Articles
 {
+    [NeedsPermission(FunctionPermmisionsCode.RemoveArticle)]
     public class DeleteModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;

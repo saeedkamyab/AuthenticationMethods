@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AuthAspRazorPages.EFcore;
 using AuthAspRazorPages.Models.Article;
+using AuthAspRazorPages.Permissions;
 
 namespace AuthAspRazorPages.Pages.Articles
 {
+    [NeedsPermission(FunctionPermmisionsCode.EditArticle)]
     public class EditModel : PageModel
     {
         private readonly AuthAspRazorPages.EFcore.ProContext _context;
@@ -38,9 +40,6 @@ namespace AuthAspRazorPages.Pages.Articles
             Article = article;
             return Page();
         }
-
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

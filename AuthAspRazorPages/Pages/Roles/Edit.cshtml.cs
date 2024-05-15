@@ -21,7 +21,7 @@ namespace AuthAspRazorPages.Pages.Roles
         private readonly IRoleApplication _roleApp;
         private readonly IEnumerable<IPermissionExposer> _exposers;
 
-        public List<SelectListItem> Permissions = new List<SelectListItem>();
+        public List<SelectListItem> Permissions= new List<SelectListItem>();
 
         public EditModel(IRoleApplication roleApp, IEnumerable<IPermissionExposer> exposers)
         {
@@ -32,13 +32,19 @@ namespace AuthAspRazorPages.Pages.Roles
         [BindProperty]
         public Role editRoleModel { get; set; } = default!;
 
+
+
+
         public IActionResult OnGet(int id)
         {
-
+          
             if (id == null)
             {
                 return NotFound();
             }
+
+         
+
             editRoleModel = _roleApp.GetDetails(id);
             foreach (var exposer in _exposers)
             {
@@ -48,6 +54,7 @@ namespace AuthAspRazorPages.Pages.Roles
                     var group = new SelectListGroup { Name = key };
                     foreach (var permission in value)
                     {
+                       // var item = new SelectListItem(permission.Name, permission.Code.ToString())
                         var item = new SelectListItem(permission.Name, permission.Code.ToString())
                         {
                             Group = group
@@ -68,12 +75,15 @@ namespace AuthAspRazorPages.Pages.Roles
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public IActionResult OnPost()
+        public IActionResult OnPost(List<string> selectedPermissions)
         {
-            foreach (var permItem in Permissions)
+            //  var t = Request.Form["permissionsList"];
+
+            foreach (var perm in selectedPermissions)
             {
-                if (permItem.Selected == true)
-                    editRoleModel.Permissions.Add(new Permission(Convert.ToInt32(permItem.Value), permItem.Text));
+                Permission P = new Permission(Convert.ToInt32(perm));
+                P.RoleId = editRoleModel.Id;
+                editRoleModel.Permissions.Add(P);
             }
 
             var result = _roleApp.Edit(editRoleModel);

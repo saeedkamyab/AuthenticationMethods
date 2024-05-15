@@ -5,13 +5,16 @@ namespace AuthAspRazorPages.Models.RoleAndPermission
 {
     public class Role
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get;  set; }
         public string Name { get; set; }
 
 
 
         public List<User> Users { get;  set; }
-        public List<Permission> Permissions { get;  set; }
+        
+        public List<Permission> Permissions { get;  set; }=new List<Permission>();
+        
         [NotMapped]
         public List<int> PermissionCodes { get;  set; }
         [NotMapped]
