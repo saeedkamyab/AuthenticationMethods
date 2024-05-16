@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AuthApi.EFcore;
 using AuthApi.Models.Article;
+using AuthApi.Permissions;
 
 namespace AuthApi.Controllers
 {
@@ -23,6 +24,7 @@ namespace AuthApi.Controllers
 
         // GET: api/Articles
         [HttpGet]
+        [NeedsPermission(FunctionPermmisionsCode.ArticleList)]
         public async Task<ActionResult<IEnumerable<Article>>> GetArticles()
         {
             return await _context.Articles.ToListAsync();

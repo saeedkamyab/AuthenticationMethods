@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using AuthApi.EFcore;
 using AuthApi.Models.Book;
 using AuthApi.Permissions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AuthApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BooksController : ControllerBase
     {
         private readonly ProContext _context;

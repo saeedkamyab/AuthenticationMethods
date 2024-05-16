@@ -16,7 +16,7 @@ builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
 builder.Services.AddDbContext<ProContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-builder.Services.AddControllers(op=>op.Filters.Add<SecurityPageFilter>());
+builder.Services.AddControllers().AddMvcOptions(op=>op.Filters.Add<SecurityControllerFilter>());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
