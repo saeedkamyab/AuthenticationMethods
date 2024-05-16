@@ -33,7 +33,7 @@ namespace AuthApi.Controllers
                 );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
             //return Ok(tokenString);
-            return Ok(new { token = tokenString });
+            return Ok(tokenString);
 
         }
     }
