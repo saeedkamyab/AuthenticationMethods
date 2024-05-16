@@ -1,4 +1,5 @@
 ﻿
+using AuthApi.Permissions;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuthApi.Models.RoleAndPermission
@@ -17,8 +18,8 @@ namespace AuthApi.Models.RoleAndPermission
         
         [NotMapped]
         public List<int> PermissionCodes { get;  set; }
-        //[NotMapped]
-        //public List<PermissionDto> MappedPermissions { get; set; }
+        [NotMapped]
+        public List<PermissionDto> MappedPermissions { get; set; }
 
         public Role() { }
 

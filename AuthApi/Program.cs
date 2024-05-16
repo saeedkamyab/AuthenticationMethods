@@ -1,4 +1,9 @@
+using AuthApi.Application;
+using AuthApi.Application.RoleAndPermission;
+using AuthApi.Common;
 using AuthApi.EFcore;
+using AuthApi.Permissions;
+using AuthApi.PermissionsControl;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -6,12 +11,24 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddHttpContextAccessor();
+
 // Add services to the container.
 builder.Services.AddDbContext<ProContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddTransient<IPermissionExposer, ManagmentSystemExposer>();
+builder.Services.AddTransient<IAuthHelper, AuthHelper>();
+builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+builder.Services.AddTransient<IUserApplication, UserApplication>();
+builder.Services.AddTransient<IRoleApplication, RoleApplication>();
+builder.Services.AddTransient<IFileUploader, FileUploader>();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
 

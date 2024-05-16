@@ -1,4 +1,5 @@
-﻿using AuthApi.Models;
+﻿using AuthApi.Application;
+using AuthApi.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -12,29 +13,28 @@ namespace AuthApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private IUserApplication _userApp;
+
+        public AuthController(IUserApplication userApp)
+        {
+            _userApp = userApp;
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] Login loginModel)
         {
-            if (loginModel.UserName != "admin" && loginModel.Password != "1234")
+            var loginResult = _userApp.Login(loginModel);
+
+            if (loginResult.Success != true)
             {
                 return Unauthorized();
             }
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authentication"));
-            var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-            var tokenOptions = new JwtSecurityToken(
-                issuer: "https://localhost:7102",
-                claims: new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name,loginModel.UserName),
-                    new Claim(ClaimTypes.Role,"Admin"),
-                },
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: signInCredentials
-                );
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            //return Ok(tokenString);
-            return Ok(tokenString);
+            else
+            {
 
+                return Ok(loginResult.TokenString);
+
+            }
         }
     }
 }
