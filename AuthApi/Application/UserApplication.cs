@@ -2,10 +2,9 @@
 using AuthApi.Common;
 using AuthApi.EFcore;
 using AuthApi.Models;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
 
 
 namespace AuthApi.Application
@@ -42,7 +41,7 @@ namespace AuthApi.Application
             pass = _passHasher.Hash(pass);
 
 
-            var user = new User(registerModel.UserName,pass, registerModel.FullName, registerModel.FName,
+            var user = new User(registerModel.UserName, pass, registerModel.FullName, registerModel.FName,
                 registerModel.ProfilePhoto, registerModel.RoleId);
 
             _proContext.Add(user);
@@ -82,13 +81,17 @@ namespace AuthApi.Application
             return true;
         }
 
-        public LoginResult Login(Login loginModel)
+        public string Login(Login loginModel)
         {
             var user = _proContext.Users.FirstOrDefault(x => x.UserName == loginModel.UserName);
 
             if (user == null)
-                return new LoginResult { Success = false, TokenString = "" };
-              
+            {
+                var res = JsonConvert.SerializeObject(new LoginResult { Success = false, TokenString = "" });
+                return res;
+            }
+
+
 
             var permissions = _proContext.Roles.Find(user.RoleId)
               .Permissions
@@ -98,11 +101,11 @@ namespace AuthApi.Application
 
             var authViewModel = new AuthViewModel(user.Id, user.RoleId, user.FullName, user.UserName, user.ProfilePhoto, permissions);
 
-           var authRes= _authHelper.Signin(authViewModel);
+            var authRes = _authHelper.Signin(authViewModel);
 
-            return authRes;
+            return JsonConvert.SerializeObject(authRes);
 
-         
+
 
 
 

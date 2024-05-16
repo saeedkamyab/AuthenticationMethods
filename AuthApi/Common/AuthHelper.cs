@@ -89,10 +89,9 @@ namespace AuthApi.Common
              claims: new List<Claim>
             {
                 new Claim("AccountId", account.Id.ToString()),
-                new Claim(ClaimTypes.Name, account.Fullname),
+                new Claim("FullName", account.Fullname),
                 new Claim(ClaimTypes.Role, account.RoleId.ToString()),
                 new Claim("Username", account.Username), // Or Use ClaimTypes.NameIdentifier
-
                 new Claim("ProfilePhoto",account.ProfilePhoto),
                 new Claim("permissions", permissions),
             },
@@ -114,7 +113,13 @@ namespace AuthApi.Common
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-            return new LoginResult { Success=true,TokenString=tokenString};
+
+            var res = new LoginResult { Success = true, TokenString = tokenString };
+            foreach (var i in tokenOptions.Claims)
+            {
+                res.claims.Add(i);
+            }
+            return res;
         }
 
         public void SignOut()

@@ -1,12 +1,13 @@
 ﻿
 
 using AuthApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Application
 {
     public interface IUserApplication
     {
-        LoginResult Login(Login loginModel);
+        string Login(Login loginModel);
         //bool Login2(Login loginModel);
         void Logout();
 

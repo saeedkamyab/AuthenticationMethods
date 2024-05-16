@@ -25,14 +25,14 @@ namespace AuthApi.Controllers
         {
             var loginResult = _userApp.Login(loginModel);
 
-            if (loginResult.Success != true)
+            if (loginResult == null)
             {
                 return Unauthorized();
             }
             else
             {
 
-                return Ok(loginResult.TokenString);
+                return Ok(loginResult);
 
             }
         }
