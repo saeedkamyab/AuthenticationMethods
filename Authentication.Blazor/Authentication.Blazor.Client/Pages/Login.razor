@@ -4,7 +4,8 @@
 @using Authentication.Blazor.Client.Models
 @using Newtonsoft.Json
 @using System.Text
-
+@using MudBlazor
+@inject ISnackbar Snackbar
 
 
 <div class="d-flex w-100 h-100 justify-content-center align-items-center darkEffect">
@@ -14,9 +15,6 @@
         <h1 class="text-center text-light">FastMail</h1>
 
         <h4 class="text-center text-light">Have an account?</h4>
-
-        <p style="color:white">User Name: @lblUserName</p>
-        <p style="color:white">Full Name: @lblFullName</p>
 
         <div class="d-flex justify-content-center w-100 h-100 align-items-center">
 
@@ -42,7 +40,11 @@
                 </div>
             </form>
 
-
+          
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => Snackbar.Add("Simple Snackbar"))">
+                Open Snackbar
+            </MudButton>
+         
 
         </div>
 
@@ -64,6 +66,7 @@
 
     public string lblUserName { get; set; }
     public string lblFullName { get; set; }
+
 
 
     private async Task<string> GetJwtTokenAsync(string authUrl)
@@ -101,7 +104,7 @@
 
     private async void SignIn2()
     {
-       
+
 
         var content = new StringContent(JsonConvert.SerializeObject(loginModel), Encoding.UTF8, "application/json");
         var response = await client.PostAsync("https://localhost:7102/api/Auth", content);
@@ -118,6 +121,10 @@
 
             lblUserName = loginRes.claims.FirstOrDefault(x => x.Type == "Username").Value;
             lblFullName = loginRes.claims.FirstOrDefault(x => x.Type == "FullName").Value;
+
+            Snackbar.Add("User name: "+lblUserName+"||"+"Full name: "+lblFullName);
+           
+
             myToken = loginRes.TokenString;
 
         }
