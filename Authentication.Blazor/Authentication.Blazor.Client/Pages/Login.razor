@@ -1,0 +1,99 @@
+﻿@page "/"
+@using Authentication.Blazor.Client.Models
+@using Newtonsoft.Json
+@using System.Text
+
+
+<h3>Login</h3>
+
+<p>User Name: @lblUserName</p>
+<p>Full Name: @lblFullName</p>
+
+<div class="d-flex w-100 h-100 justify-content-center align-items-center darkEffect">
+
+    <div class="border-0">
+
+        <h1 class="text-center text-light">FastMail</h1>
+
+        <h4 class="text-center text-light">Have an account?</h4>
+
+        <div class="d-flex justify-content-center w-100 h-100 align-items-center">
+
+            <form method="post"  asp-page-handler="Login" @onsubmit="SignIn">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group m-3">
+
+                    <InputText asp-for="login.UserName" @bind-Value="loginModel.UserName" type="text" class="form-control bg-opacity-30 inputStyle" placeholder="UserName" />
+
+                    <span asp-validation-for="login.UserName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group m-3">
+
+                    <InputText asp-for="login.Password" type="password" @bind-Value="loginModel.Password" class="form-control bg-opacity-30 inputStyle" placeholder="Password" />
+                    <span asp-validation-for="login.Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group m-3">
+                    <input type="submit" value="SIGN IN" class="btn LoginButton" />
+                </div>
+            </form>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@code {
+
+    [SupplyParameterFromForm]
+    public LoginModel loginModel { get; set; } = new();
+
+    static HttpClient client = new HttpClient();
+    string myToken;
+    LoginResult loginRes = new LoginResult();
+
+
+    public string lblUserName { get; set; }
+    public string lblFullName { get; set; }
+
+
+    private async Task<string> GetJwtTokenAsync(string authUrl)
+    {
+
+        var content = new StringContent(JsonConvert.SerializeObject(loginModel), Encoding.UTF8, "application/json");
+        var response = await client.PostAsync(authUrl, content);
+        response.EnsureSuccessStatusCode();
+
+        // دریافت و پردازش توکن JWT
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        var jwtToken = responseString;
+
+        return jwtToken;
+    }
+
+    private async void SignIn()
+    {
+        // string username = "admin";
+        // string pass = "admin";
+
+        var resultString = await GetJwtTokenAsync("https://localhost:7102/api/Auth");
+        if (resultString != null)
+        {
+            loginRes = JsonConvert.DeserializeObject<LoginResult>(resultString);
+
+            lblUserName = loginRes.claims.FirstOrDefault(x => x.Type == "Username").Value;
+            lblFullName = loginRes.claims.FirstOrDefault(x => x.Type == "FullName").Value;
+            myToken = loginRes.TokenString;
+
+        }
+    }
+}

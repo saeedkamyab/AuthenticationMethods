@@ -1,5 +1,6 @@
-using AuthBlazor.Client.Pages;
-using AuthBlazor.Components;
+using Authentication.Blazor.Client.Pages;
+using Authentication.Blazor.Components;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+
+
+builder.Services.AddMudServices();
 
 var app = builder.Build();
 
@@ -30,6 +35,6 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(AuthBlazor.Client._Imports).Assembly);
+    .AddAdditionalAssemblies(typeof(Authentication.Blazor.Client._Imports).Assembly);
 
 app.Run();

@@ -1,4 +1,4 @@
-﻿using AuthApi.HttpHelper;
+﻿
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +9,7 @@ namespace AuthApi.Controllers
     public class BaseController : ControllerBase
     {
 
-        [HttpPost]
+        //[HttpPost]
         //public IActionResult LoadList([FromBody] CustomRequestMessage request)
         //{
 
