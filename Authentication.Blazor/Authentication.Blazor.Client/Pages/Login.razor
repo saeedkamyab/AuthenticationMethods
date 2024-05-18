@@ -1,13 +1,11 @@
 ﻿@page "/"
+@layout LoginLayout
+@using Authentication.Blazor.Client.Layout
 @using Authentication.Blazor.Client.Models
 @using Newtonsoft.Json
 @using System.Text
 
 
-<h3>Login</h3>
-
-<p>User Name: @lblUserName</p>
-<p>Full Name: @lblFullName</p>
 
 <div class="d-flex w-100 h-100 justify-content-center align-items-center darkEffect">
 
@@ -17,9 +15,12 @@
 
         <h4 class="text-center text-light">Have an account?</h4>
 
+        <p style="color:white">User Name: @lblUserName</p>
+        <p style="color:white">Full Name: @lblFullName</p>
+
         <div class="d-flex justify-content-center w-100 h-100 align-items-center">
 
-            <form method="post"  asp-page-handler="Login" @onsubmit="SignIn">
+            <form method="post" asp-page-handler="Login" @onsubmit="SignIn2">
 
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -85,7 +86,7 @@
         // string username = "admin";
         // string pass = "admin";
 
-        var resultString = await GetJwtTokenAsync("https://localhost:7102/api/Auth");
+        var resultString =await  GetJwtTokenAsync("https://localhost:7102/api/Auth");
         if (resultString != null)
         {
             loginRes = JsonConvert.DeserializeObject<LoginResult>(resultString);
@@ -95,5 +96,31 @@
             myToken = loginRes.TokenString;
 
         }
+    }
+
+
+    private async void SignIn2()
+    {
+       
+
+        var content = new StringContent(JsonConvert.SerializeObject(loginModel), Encoding.UTF8, "application/json");
+        var response = await client.PostAsync("https://localhost:7102/api/Auth", content);
+        response.EnsureSuccessStatusCode();
+
+        // دریافت و پردازش توکن JWT
+        var responseString = await response.Content.ReadAsStringAsync();
+
+        var jwtToken = responseString;
+
+        if (jwtToken != null)
+        {
+            loginRes = JsonConvert.DeserializeObject<LoginResult>(jwtToken);
+
+            lblUserName = loginRes.claims.FirstOrDefault(x => x.Type == "Username").Value;
+            lblFullName = loginRes.claims.FirstOrDefault(x => x.Type == "FullName").Value;
+            myToken = loginRes.TokenString;
+
+        }
+
     }
 }
