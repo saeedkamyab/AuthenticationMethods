@@ -1,11 +1,23 @@
-﻿@page "/Home"
+﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+
+
+<h1>logged in</h1>
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
+        Welcome to your new app.
 <P></P>
 <MudMenu Label="Click here to test">
     <MudMenuItem>It works</MudMenuItem>
 </MudMenu>
+
+@code {
+  
+    protected override void OnInitialized()
+    {
+
+    }
+}

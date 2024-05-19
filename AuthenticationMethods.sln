@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{416C49D6-E25
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{216DF3B7-F8A8-4D20-BFCD-56BBADA212C7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor", "Blazor", "{F5F7FA15-4A8E-4D0D-92E5-EF9E804C1378}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blazor2", "Blazor2", "{F5F7FA15-4A8E-4D0D-92E5-EF9E804C1378}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication.Blazor", "Authentication.Blazor\Authentication.Blazor\Authentication.Blazor.csproj", "{268CABC9-767C-436B-A16F-0184C013FD88}"
 EndProject

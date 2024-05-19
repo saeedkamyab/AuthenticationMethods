@@ -1,6 +1,12 @@
+using Authentication.Blazor;
 using Authentication.Blazor.Client.Pages;
 using Authentication.Blazor.Components;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.IdentityModel.Tokens;
 using MudBlazor.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +18,33 @@ builder.Services.AddRazorComponents()
 
 
 builder.Services.AddMudServices();
+
+
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//})
+//   .AddJwtBearer(options =>
+//   {
+//       options.TokenValidationParameters = new TokenValidationParameters
+//       {
+//           ValidateIssuer = true,
+//           ValidateAudience = true,
+//           ValidateLifetime = true,
+//           ValidateIssuerSigningKey = true,
+//           ValidIssuer = "https://localhost:7102",
+          
+//           IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authentication"))
+//       };
+//   });
+
+//builder.Services.AddAuthorization();
+//builder.Services.AddRazorPages();
+//builder.Services.AddServerSideBlazor();
+//builder.Services.AddScoped<AuthenticationStateProvider, JwtAuthenticationStateProvider>();
+
 
 var app = builder.Build();
 
@@ -31,6 +64,9 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+//app.UseAuthentication();
+
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
