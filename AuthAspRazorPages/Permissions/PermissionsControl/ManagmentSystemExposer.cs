@@ -14,8 +14,8 @@ namespace AuthAspRazorPages.PermissionsControl
                       "Articles",new List<PermissionDto>
                       {
 
-                         new PermissionDto(FunctionPermmisionsCode.ArticleList,"ArticleList"),
-                         new PermissionDto(FunctionPermmisionsCode.AddNewArticle,"AddNewArticle"),
+                         new PermissionDto(FunctionPermmisionsCode.ArticleList,"لیست مقالات"),
+                         new PermissionDto(FunctionPermmisionsCode.AddNewArticle,"نوشتن مثاله جدید"),
                          new PermissionDto(FunctionPermmisionsCode.EditArticle,"EditArticle"),
                          new PermissionDto(FunctionPermmisionsCode.RemoveArticle,"RemoveArticle"),
                       }
