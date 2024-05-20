@@ -23,12 +23,8 @@ namespace AuthApi.Common.Permissions
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            //var handlerPermission = (NeedsPermissionAttribute)context.HandlerMethod.MethodInfo.GetCustomAttribute(
-            //      typeof(NeedsPermissionAttribute));
-
             var actionPermission = (NeedsPermissionAttribute)context.ActionDescriptor.EndpointMetadata.SingleOrDefault(meta =>
             meta.GetType() == typeof(NeedsPermissionAttribute));
-
 
 
             if (actionPermission == null) return;
