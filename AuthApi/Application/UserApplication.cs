@@ -15,7 +15,7 @@ namespace AuthApi.Application
 
         private readonly IAuthHelper _authHelper;
         private readonly IPasswordHasher _passHasher;
-     
+
         private readonly ProContext _proContext;
 
         public UserApplication(IAuthHelper authHelper, IPasswordHasher passHasher, ProContext proContext)
@@ -23,9 +23,45 @@ namespace AuthApi.Application
             _authHelper = authHelper;
             _passHasher = passHasher;
             _proContext = proContext;
-        
+
         }
 
+        #region Authentication
+
+        public string Login(Login loginModel)
+        {
+            var user = _proContext.Users.FirstOrDefault(x => x.UserName == loginModel.UserName && x.Password == loginModel.Password);
+
+            if (user == null)
+            {
+                var res = JsonConvert.SerializeObject(new LoginResult { Success = false, TokenString = "" });
+                return res;
+            }
+
+
+
+            var permissions = _proContext.Roles.Find(user.RoleId)
+              .Permissions
+              .Select(x => x.Code)
+              .ToList();
+
+
+            var authViewModel = new AuthViewModel(user.Id, user.RoleId, user.FullName, user.UserName, user.ProfilePhoto, permissions);
+
+            var authRes = _authHelper.Signin(authViewModel);
+
+            return JsonConvert.SerializeObject(authRes);
+        }
+
+        public void Logout()
+        {
+            _authHelper.SignOut();
+        }
+
+        #endregion
+
+
+        #region CRUD and Other functions
         public List<User> GetAccounts()
         {
             return _proContext.Users.ToList();
@@ -65,14 +101,13 @@ namespace AuthApi.Application
             }
             var path = editModel.Id.ToString();
 
-         
+
 
             user.Edit(editModel.UserName, password, editModel.FullName, editModel.FName, "", editModel.RoleId);
             _proContext.SaveChanges();
             return true;
 
         }
-
         public bool Delete(int id)
         {
             var user = GetDetails(id);
@@ -81,55 +116,32 @@ namespace AuthApi.Application
             _proContext.SaveChanges();
             return true;
         }
-
-        public string Login(Login loginModel)
-        {
-            var user = _proContext.Users.FirstOrDefault(x => x.UserName == loginModel.UserName && x.Password==loginModel.Password);
-
-            if (user == null)
-            {
-                var res = JsonConvert.SerializeObject(new LoginResult { Success = false, TokenString = "" });
-                return res;
-            }
-
-
-
-            var permissions = _proContext.Roles.Find(user.RoleId)
-              .Permissions
-              .Select(x => x.Code)
-              .ToList();
-
-
-            var authViewModel = new AuthViewModel(user.Id, user.RoleId, user.FullName, user.UserName, user.ProfilePhoto, permissions);
-
-            var authRes = _authHelper.Signin(authViewModel);
-
-            return JsonConvert.SerializeObject(authRes);
+        #endregion
 
 
 
 
+        #region For later
+        //Old version
 
-            //Old version
-
-            //var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authentication"));
-            //var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-
-            //var tokenOptions = new JwtSecurityToken(
-            //    issuer: "https://localhost:7102",
-            //    claims: new List<Claim>
-            //    {
-            //        new Claim(ClaimTypes.Name,loginModel.UserName),
-            //        new Claim(ClaimTypes.Role,"Admin"),
-            //    },
-            //    expires: DateTime.Now.AddMinutes(30),
-            //    signingCredentials: signInCredentials
-            //    );
-            //var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+        //var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is my custom Secret key for authentication"));
+        //var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
 
-        }
+        //var tokenOptions = new JwtSecurityToken(
+        //    issuer: "https://localhost:7102",
+        //    claims: new List<Claim>
+        //    {
+        //        new Claim(ClaimTypes.Name,loginModel.UserName),
+        //        new Claim(ClaimTypes.Role,"Admin"),
+        //    },
+        //    expires: DateTime.Now.AddMinutes(30),
+        //    signingCredentials: signInCredentials
+        //    );
+        //var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+
+
 
 
         //public bool Login(Login loginModel)
@@ -156,10 +168,7 @@ namespace AuthApi.Application
         //    return true;
         //}
 
-        public void Logout()
-        {
-            _authHelper.SignOut();
-        }
+        #endregion
 
 
     }

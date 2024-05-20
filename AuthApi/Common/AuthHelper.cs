@@ -71,6 +71,7 @@ namespace AuthApi.Common
                 ExpiresUtc = DateTime.Now.AddMinutes(30)
             };
 
+            //*****88888*******
             _contextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
