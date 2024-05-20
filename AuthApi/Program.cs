@@ -26,7 +26,6 @@ builder.Services.AddTransient<IAuthHelper, AuthHelper>();
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddTransient<IUserApplication, UserApplication>();
 builder.Services.AddTransient<IRoleApplication, RoleApplication>();
-builder.Services.AddTransient<IFileUploader, FileUploader>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

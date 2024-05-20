@@ -30,6 +30,7 @@ namespace AuthAspRazorPages.Permissions
 
             if (accountPermissions.All(x => x != handlerPermission.Permission))
                 context.HttpContext.Response.Redirect("/AccessDenied");
+     
         }
 
         public void OnPageHandlerSelected(PageHandlerSelectedContext context)

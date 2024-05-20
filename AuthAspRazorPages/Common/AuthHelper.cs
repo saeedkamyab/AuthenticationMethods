@@ -46,7 +46,6 @@ namespace AuthAspRazorPages.Common
                 ?.Value;
             return JsonConvert.DeserializeObject<List<int>>(permissions);
         }
-
         public long CurrentAccountId()
         {
             return IsAuthenticated()
@@ -76,7 +75,7 @@ namespace AuthAspRazorPages.Common
         public void Signin(AuthViewModel account)
         {
             var permissions = JsonConvert.SerializeObject(account.Permissions);
-         
+
             var claims = new List<Claim>
             {
                 new Claim("AccountId", account.Id.ToString()),

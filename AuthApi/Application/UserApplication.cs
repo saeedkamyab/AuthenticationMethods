@@ -14,15 +14,15 @@ namespace AuthApi.Application
 
         private readonly IAuthHelper _authHelper;
         private readonly IPasswordHasher _passHasher;
-        private readonly IFileUploader _fileUploader;
+     
         private readonly ProContext _proContext;
 
-        public UserApplication(IAuthHelper authHelper, IPasswordHasher passHasher, IFileUploader fileUploader, ProContext proContext)
+        public UserApplication(IAuthHelper authHelper, IPasswordHasher passHasher, ProContext proContext)
         {
             _authHelper = authHelper;
             _passHasher = passHasher;
             _proContext = proContext;
-            _fileUploader = fileUploader;
+        
         }
 
         public List<User> GetAccounts()
@@ -64,9 +64,9 @@ namespace AuthApi.Application
             }
             var path = editModel.Id.ToString();
 
-            var picturePath = _fileUploader.Upload(editModel.ProfilePhotoFile, path);
+         
 
-            user.Edit(editModel.UserName, password, editModel.FullName, editModel.FName, picturePath, editModel.RoleId);
+            user.Edit(editModel.UserName, password, editModel.FullName, editModel.FName, "", editModel.RoleId);
             _proContext.SaveChanges();
             return true;
 
@@ -83,7 +83,7 @@ namespace AuthApi.Application
 
         public string Login(Login loginModel)
         {
-            var user = _proContext.Users.FirstOrDefault(x => x.UserName == loginModel.UserName);
+            var user = _proContext.Users.FirstOrDefault(x => x.UserName == loginModel.UserName && x.Password==loginModel.Password);
 
             if (user == null)
             {
