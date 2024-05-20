@@ -1,5 +1,6 @@
 ﻿
 using AuthApi.Common;
+using AuthApi.Common.com;
 using AuthApi.EFcore;
 using AuthApi.Models;
 using Microsoft.AspNetCore.Mvc;

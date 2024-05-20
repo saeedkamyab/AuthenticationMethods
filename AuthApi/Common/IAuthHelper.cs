@@ -5,14 +5,16 @@ namespace AuthApi.Common
 {
     public interface IAuthHelper
     {
-        void SignOut();
-        bool IsAuthenticated();
         LoginResult Signin(AuthViewModel account);
-        // void Signin(AuthViewModel account);
-        string CurrentAccountRole();
-        AuthViewModel CurrentAccountInfo();
+        bool IsAuthenticated();
         List<int> GetPermissions();
-        long CurrentAccountId();
-        string CurrentAccountMobile();
+        void SignOut();
+
+        #region I don't need for now
+        //long CurrentAccountId();
+        //string CurrentAccountRole();
+        //AuthViewModel CurrentAccountInfo();
+        //string CurrentAccountMobile();
+        #endregion
     }
 }

@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AuthApi.EFcore;
 using AuthApi.Models.Book;
-using AuthApi.Permissions;
+using AuthApi.Common.Permissions;
 using Microsoft.AspNetCore.Authorization;
+using AuthApi.Common.Permissions;
 
 namespace AuthApi.Controllers
 {

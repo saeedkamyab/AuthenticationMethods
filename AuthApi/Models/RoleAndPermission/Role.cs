@@ -1,5 +1,5 @@
 ﻿
-using AuthApi.Permissions;
+using AuthApi.Common.Permissions;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AuthApi.Models.RoleAndPermission

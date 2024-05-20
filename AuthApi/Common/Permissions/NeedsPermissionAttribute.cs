@@ -1,5 +1,4 @@
-﻿
-namespace AuthApi.Permissions
+﻿namespace AuthApi.Common.Permissions
 {
     public class NeedsPermissionAttribute : Attribute
     {

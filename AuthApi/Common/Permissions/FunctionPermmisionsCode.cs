@@ -1,4 +1,4 @@
-﻿namespace AuthApi.Permissions
+﻿namespace AuthApi.Common.Permissions
 {
     public static class FunctionPermmisionsCode
     {

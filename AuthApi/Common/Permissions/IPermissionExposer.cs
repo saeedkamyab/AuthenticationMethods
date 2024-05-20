@@ -1,6 +1,4 @@
-﻿
-
-namespace AuthApi.Permissions
+﻿namespace AuthApi.Common.Permissions
 {
     public interface IPermissionExposer
     {

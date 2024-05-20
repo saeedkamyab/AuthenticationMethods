@@ -1,8 +1,6 @@
-﻿
+﻿using AuthApi.Common.Permissions;
 
-using AuthApi.Permissions;
-
-namespace AuthApi.PermissionsControl
+namespace AuthApi.Common.Permissions.PermissionsControl
 {
     public class ManagmentSystemExposer : IPermissionExposer
     {
@@ -28,8 +26,8 @@ namespace AuthApi.PermissionsControl
                          new PermissionDto(FunctionPermmisionsCode.EditBook,"EditBook"),
                          new PermissionDto(FunctionPermmisionsCode.RemoveBook,"RemoveBook"),
                       }
-                }, 
-             
+                },
+
 
             };
         }

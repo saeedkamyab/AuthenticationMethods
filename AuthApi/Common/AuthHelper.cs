@@ -25,22 +25,6 @@ namespace AuthApi.Common
             _contextAccessor = contextAccessor;
         }
 
-        public AuthViewModel CurrentAccountInfo()
-        {
-            var result = new AuthViewModel();
-            if (!IsAuthenticated())
-                return result;
-
-            var claims = _contextAccessor.HttpContext.User.Claims.ToList();
-            result.Id = long.Parse(claims.FirstOrDefault(x => x.Type == "AccountId").Value);
-            result.Username = claims.FirstOrDefault(x => x.Type == "Username").Value;
-            result.RoleId = long.Parse(claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value);
-            result.Fullname = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
-            result.ProfilePhoto = claims.FirstOrDefault(x => x.Type == "ProfilePhoto").Value;
-            //result.Role = Roles.GetRoleBy(result.RoleId);
-            return result;
-        }
-
         public List<int> GetPermissions()
         {
             if (!IsAuthenticated())
@@ -51,26 +35,6 @@ namespace AuthApi.Common
             return JsonConvert.DeserializeObject<List<int>>(permissions);
         }
 
-        public long CurrentAccountId()
-        {
-            return IsAuthenticated()
-                ? long.Parse(_contextAccessor.HttpContext.User.Claims.First(x => x.Type == "AccountId")?.Value)
-                : 0;
-        }
-
-        public string CurrentAccountMobile()
-        {
-            return IsAuthenticated()
-                ? _contextAccessor.HttpContext.User.Claims.First(x => x.Type == "Mobile")?.Value
-                : "";
-        }
-
-        public string CurrentAccountRole()
-        {
-            if (IsAuthenticated())
-                return _contextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
-            return null;
-        }
 
         public bool IsAuthenticated()
         {
@@ -126,5 +90,47 @@ namespace AuthApi.Common
         {
             _contextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
+
+
+
+        #region I don't need for now
+
+        //public AuthViewModel CurrentAccountInfo()
+        //{
+        //    var result = new AuthViewModel();
+        //    if (!IsAuthenticated())
+        //        return result;
+
+        //    var claims = _contextAccessor.HttpContext.User.Claims.ToList();
+        //    result.Id = long.Parse(claims.FirstOrDefault(x => x.Type == "AccountId").Value);
+        //    result.Username = claims.FirstOrDefault(x => x.Type == "Username").Value;
+        //    result.RoleId = long.Parse(claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value);
+        //    result.Fullname = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name).Value;
+        //    result.ProfilePhoto = claims.FirstOrDefault(x => x.Type == "ProfilePhoto").Value;
+        //    //result.Role = Roles.GetRoleBy(result.RoleId);
+        //    return result;
+        //}
+
+        //public long CurrentAccountId()
+        //{
+        //    return IsAuthenticated()
+        //        ? long.Parse(_contextAccessor.HttpContext.User.Claims.First(x => x.Type == "AccountId")?.Value)
+        //        : 0;
+        //}
+
+        //public string CurrentAccountMobile()
+        //{
+        //    return IsAuthenticated()
+        //        ? _contextAccessor.HttpContext.User.Claims.First(x => x.Type == "Mobile")?.Value
+        //        : "";
+        //}
+
+        //public string CurrentAccountRole()
+        //{
+        //    if (IsAuthenticated())
+        //        return _contextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+        //    return null;
+        //}
+        #endregion
     }
 }

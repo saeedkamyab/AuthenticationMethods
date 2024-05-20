@@ -1,7 +1,7 @@
 ﻿
+using AuthApi.Common.Permissions;
 using AuthApi.EFcore;
 using AuthApi.Models.RoleAndPermission;
-using AuthApi.Permissions;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthApi.Application.RoleAndPermission

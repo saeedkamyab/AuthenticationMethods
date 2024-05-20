@@ -1,9 +1,8 @@
-﻿
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using System.Security.Cryptography;
 
 
-namespace AuthApi.Common
+namespace AuthApi.Common.com
 {
     public class PasswordHasher : IPasswordHasher
     {

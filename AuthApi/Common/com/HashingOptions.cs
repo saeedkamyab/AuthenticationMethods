@@ -1,4 +1,4 @@
-﻿namespace AuthApi.Common
+﻿namespace AuthApi.Common.com
 {
     public sealed class HashingOptions
     {

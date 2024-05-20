@@ -1,10 +1,9 @@
-﻿
-using AuthApi.Common;
+﻿using AuthApi.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Reflection;
 
-namespace AuthApi.Permissions
+namespace AuthApi.Common.Permissions
 {
     public class SecurityControllerFilter : IActionFilter
     {
